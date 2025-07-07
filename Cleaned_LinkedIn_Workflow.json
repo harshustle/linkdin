@@ -1,1 +1,166 @@
-{'nodes': [{'parameters': {'person': 'fw-mV4uyq5', 'text': '={{ $json.content }}', 'additionalFields': {}}, 'type': 'n8n-nodes-base.linkedIn', 'typeVersion': 1, 'position': [456, 360], 'id': '1ffba143-e644-407d-8624-91b20f6a3527', 'name': 'LinkedIn', 'credentials': {'linkedInOAuth2Api': None}}, {'parameters': {'modelName': 'models/gemini-2.0-flash', 'options': {}}, 'type': '@n8n/n8n-nodes-langchain.lmChatGoogleGemini', 'typeVersion': 1, 'position': [-52, 580], 'id': 'b0112ed1-ae40-4f79-9314-e7d297122493', 'name': 'Google Gemini Chat Model', 'credentials': {'googlePalmApi': None}}, {'parameters': {'promptType': 'define', 'text': '=You are a LinkedIn content specialist and expert social media strategist.\n\nWrite a visually engaging and professional LinkedIn post on the topic: "{{ $json[\'Post Title\'] }}".\n\n✔ Use emojis to enhance key points  \n✔ Use **bold** markdown formatting only for:\n  - Headings\n  - Key action phrases\n  - Section titles  \n✔ Keep line breaks between sections for readability  \n✔ Include 3–5 professional hashtags at the end, separated by spaces  \n✔ Keep the tone professional yet friendly  \n✔ Return only this JSON object — no extra text or markdown wrapping:\n\n{\n  "content": "Final post here"\n}\n', 'options': {}}, 'type': '@n8n/n8n-nodes-langchain.agent', 'typeVersion': 1.9, 'position': [-140, 360], 'id': '56ad6ab3-dda9-4725-8ec0-f2961f80c80a', 'name': 'AI Agent'}, {'parameters': {'formTitle': 'Post Content', 'formDescription': 'Post Ai Generated Content', 'formFields': {'values': [{'fieldLabel': 'Post Title', 'placeholder': 'Enter the topic', 'requiredField': True}]}, 'options': {}}, 'type': 'n8n-nodes-base.formTrigger', 'typeVersion': 2.2, 'position': [-360, 360], 'id': 'f7e7c47c-e508-4e15-9b49-3ec3b51e1132', 'name': 'On form submission', 'webhookId': 'f2655470-19f9-497f-868e-7553fb0795ab'}, {'parameters': {'jsCode': 'for (const item of $input.all()) {\n  const raw = item.json.text || item.json.output || JSON.stringify(item.json);\n\n  const cleanRaw = raw.replace(/```(?:json)?|```/g, "").trim();\n\n  try {\n    const parsed = JSON.parse(cleanRaw);\n    return [{ json: parsed }];\n  } catch (err) {\n    return [{ json: { content: cleanRaw } }];\n  }\n}\n'}, 'type': 'n8n-nodes-base.code', 'typeVersion': 2, 'position': [236, 360], 'id': 'f144999e-2d19-40cd-b670-faf6b402619e', 'name': 'Code'}, {'parameters': {'operation': 'completion', 'completionTitle': '={{ $json.urn }}', 'options': {}}, 'type': 'n8n-nodes-base.form', 'typeVersion': 1, 'position': [676, 360], 'id': '73f5debe-ecd5-4d22-8cd5-48b5b7da9f03', 'name': 'Form', 'webhookId': '7e0a30fc-02ed-45cb-87eb-337b85eb8bb0'}], 'connections': {'LinkedIn': {'main': [[{'node': 'Form', 'type': 'main', 'index': 0}]]}, 'Google Gemini Chat Model': {'ai_languageModel': [[{'node': 'AI Agent', 'type': 'ai_languageModel', 'index': 0}]]}, 'AI Agent': {'main': [[{'node': 'Code', 'type': 'main', 'index': 0}]]}, 'On form submission': {'main': [[{'node': 'AI Agent', 'type': 'main', 'index': 0}]]}, 'Code': {'main': [[{'node': 'LinkedIn', 'type': 'main', 'index': 0}]]}}, 'pinData': {}, 'meta': {'templateCredsSetupCompleted': True, 'instanceId': 'b51b4f6b936600633742539eb75e3c434deae70045cf5b651f73bf274445a191'}}
+{
+  "nodes": [
+    {
+      "parameters": {
+        "person": "fw-mV4uyq5",
+        "text": "",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        456,
+        360
+      ],
+      "id": "",
+      "name": "LinkedIn",
+      "credentials": null
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -52,
+        580
+      ],
+      "id": "",
+      "name": "Google Gemini Chat Model",
+      "credentials": null
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a LinkedIn content specialist and expert social media strategist.\n\nWrite a visually engaging and professional LinkedIn post on the topic: \"{{ $json['Post Title'] }}\".\n\n\u2714 Use emojis to enhance key points  \n\u2714 Use **bold** markdown formatting only for:\n  - Headings\n  - Key action phrases\n  - Section titles  \n\u2714 Keep line breaks between sections for readability  \n\u2714 Include 3\u20135 professional hashtags at the end, separated by spaces  \n\u2714 Keep the tone professional yet friendly  \n\u2714 Return only this JSON object \u2014 no extra text or markdown wrapping:\n\n{\n  \"content\": \"Final post here\"\n}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -140,
+        360
+      ],
+      "id": "",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "formTitle": "Post Content",
+        "formDescription": "Post Ai Generated Content",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Post Title",
+              "placeholder": "Enter the topic",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -360,
+        360
+      ],
+      "id": "f7e7c47c-e508-4e15-9b49-3ec3b51e1132",
+      "name": "On form submission",
+      "webhookId": "f2655470-19f9-497f-868e-7553fb0795ab"
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  const raw = item.json.text || item.json.output || JSON.stringify(item.json);\n\n  const cleanRaw = raw.replace(/```(?:json)?|```/g, \"\").trim();\n\n  try {\n    const parsed = JSON.parse(cleanRaw);\n    return [{ json: parsed }];\n  } catch (err) {\n    return [{ json: { content: cleanRaw } }];\n  }\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        236,
+        360
+      ],
+      "id": "f144999e-2d19-40cd-b670-faf6b402619e",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "={{ $json.urn }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        676,
+        360
+      ],
+      "id": "73f5debe-ecd5-4d22-8cd5-48b5b7da9f03",
+      "name": "Form",
+      "webhookId": "7e0a30fc-02ed-45cb-87eb-337b85eb8bb0"
+    }
+  ],
+  "connections": {
+    "LinkedIn": {
+      "main": [
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "LinkedIn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": ""
+  }
+}
